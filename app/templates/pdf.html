@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>Announcements</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href={{ url_for('static', filename='css/style.css') }}>
+  <link rel="stylesheet" href={{ url_for('static', filename='css/skeleton.css') }}>
+
+</head>
+<body>
+<header><h1>UW Department of English</h1></header>
+<hr>
+<div class="container">
+    <h2>{{ data.title }}</h2>
+    <!-- TinyMCE escapes input html already this is safe-ish -->
+    {{ data.body | safe }} 
+    <br>
+    <div style="text-align: center;">
+        <strong>Date: </strong> {{ data.datestring }} <br>
+        <strong>Time: </strong> {{ data.timestring }} <br>
+        <strong>Location: </strong> {{ data.location }} <br>
+        <strong>RSVP: </strong> test@uw.edu 
+    </div>
+</div>
+</body>
+</html>

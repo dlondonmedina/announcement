@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Create</h2>    
+<form action="" method="post" novalidate>
+    {{ form.hidden_tag() }}
+    {{ form.title.label }}
+    {{ form.title(size=60) }}
+    {% for error in form.title.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+    {{ form.body.label }}
+    {{ form.body() }}
+    {% for error in form.body.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+    {{ form.dt.label }}
+    {{ form.dt(size=60, type="datetime-local") }}
+    {% for error in form.dt.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+    {{ form.location.label }}
+    {{ form.location(size=60) }}
+    {% for error in form.location.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+    <br />
+    {{ form.submit(class_="button button-primary") }}
+</form>
+<script>
+    tinymce.init({
+      selector: 'textarea',
+      height: 500,
+      menubar: false,
+      plugins: 'advlist autolink lists link image charmap print preview anchor searchreplace visualblocks code fullscreen insertdatetime media table paste code help wordcount',
+      toolbar: 'undo redo | formatselect | ' +
+        'bold italic backcolor | alignleft aligncenter ' +
+        'alignright alignjustify | bullist numlist outdent indent | ' +
+        'removeformat | help',
+      toolbar_mode: 'floating',
+   });
+</script>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="jumbotron">
+  <h2>Announcements for UW English</h2>
+  <a class="button button-primary" href={{ url_for('create') }}>Create</a>
+</div>
+<hr>
+<div class="container">
+
+{% if announcements %}
+  {% for announcement in announcements %}
+    {% if loop.index % 2 != 0 %}
+      <div class="row">
+    {% endif %}   
+    <div class="one-half column"><h3><a style="text-decoration: none;" href={{ url_for('render', id=announcement.id) }}>{{ announcement.title }}</a></h3></div>
+    {% if loop.index % 2 == 0 %}
+      </div>
+    {% endif %}
+  {% endfor %}
+{% endif %}
+</div>
+
+{% endblock %}

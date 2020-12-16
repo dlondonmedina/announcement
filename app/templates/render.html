@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <h1>{{ data.title }}</h1>
+    <!-- TinyMCE escapes input html already this is safe-ish -->
+    {{ data.body | safe }} 
+    <br>
+    <div style="text-align: center;">
+        <strong>Date: </strong> {{ data.datestring }} <br>
+        <strong>Time: </strong> {{ data.timestring }} <br>
+        <strong>Location: </strong> {{ data.location }}
+    </div>
+</div>
+<div class="row">
+    <div class="four columns" style="float: right;"><a class="button button-primary" href={{ url_for('generate_pdf', id=data.id) }} target="_blank">GET PDF</a></div>
+
+</div>
+{% endblock %}
