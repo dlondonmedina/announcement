@@ -12,7 +12,11 @@
     </div>
 </div>
 <div class="row">
-    <div class="four columns" style="float: right;"><a class="button button-primary" href={{ url_for('generate_pdf', id=data.id) }} target="_blank">GET PDF</a></div>
+    <div class="four columns" style="float: right;">
+        <a class="button button-primary" href={{ url_for('edit', id=data.id) }}>Edit</a>
+        <a class="button button-primary" href={{ url_for('delete', id=data.id) }}>Delete</a>
+        <a class="button button-primary" href={{ url_for('generate_pdf', id=data.id) }} target="_blank">GET PDF</a>
+    </div>
 
 </div>
 {% endblock %}
