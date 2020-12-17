@@ -64,25 +64,27 @@ def delete(id):
 @app.route('/render/<id>')
 def render(id):
     announcement = Announcement.query.filter_by(id=id).first_or_404()
-    data = {}
-    data['title'] = announcement.title 
-    data['body'] = announcement.body
-    data['datestring'] = announcement.datetime.strftime("%B %d, %Y")
-    data['timestring'] = announcement.datetime.strftime("%H:%M")
-    data['location'] = announcement.location 
-    data['id'] = id
+    data = {
+        'title': announcement.title, 
+        'body': announcement.body,
+        'datestring': announcement.datetime.strftime("%B %d, %Y"),
+        'timestring': announcement.datetime.strftime("%H:%M"),
+        'location': announcement.location,
+        'id': id 
+    }
     return render_template('render.html', data = data)
 
 
 @app.route('/generate_pdf/<id>')
 def generate_pdf(id):
     announcement = Announcement.query.filter_by(id=id).first_or_404()
-    data = {}
-    data['title'] = announcement.title 
-    data['body'] = announcement.body
-    data['datestring'] = announcement.datetime.strftime("%B %d, %Y")
-    data['timestring'] = announcement.datetime.strftime("%H:%M")
-    data['location'] = announcement.location 
+    data = {
+        'title': announcement.title, 
+        'body': announcement.body,
+        'datestring': announcement.datetime.strftime("%B %d, %Y"),
+        'timestring': announcement.datetime.strftime("%H:%M"),
+        'location': announcement.location 
+    }
     html = render_template('pdf.html', data=data)
     path = app.config['PDF_PATH']
     fname = data['title'].replace(' ', '_') + '.pdf'
