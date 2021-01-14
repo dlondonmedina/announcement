@@ -1,11 +1,11 @@
-from flask import render_template, redirect, url_for, flash, send_from_directory
+from flask import render_template, redirect, url_for, flash, send_from_directory, request
 from app import app
 from app import db 
 from app.forms import AnnouncementForm
 from app.models import Announcement
 from datetime import datetime 
-from weasyprint import HTML 
-
+from weasyprint import HTML, CSS 
+from bs4 import BeautifulSoup
 
 @app.route('/')
 @app.route('/index')
@@ -90,4 +90,32 @@ def generate_pdf(id):
     fname = data['title'].replace(' ', '_') + '.pdf'
     stylesheets = [path + 'style.css']
     doc = HTML(string=html).write_pdf(path +fname, stylesheets=stylesheets)
+    return send_from_directory(path, filename=fname, as_attachment=True)
+
+@app.route('/html', methods=['POST'])
+def from_html():
+    data = request.get_json()
+    html = data['html']
+    css = data['css']
+    # Sanitize HTML
+    valid_tags = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'a', 'area', 'b', 'br', 'div', 'em', 'i', 'img', 'li', 'map', 'ol', 'p', 's', 'span', 'strong', 'table', 'tbody', 'th', 'tr', 'td', 'thead', 'tfoot', 'u', 'ul', 'body', 'html', 'head', 'title']
+    valid_attributes = ['margin', 'margin-left', 'margin-top', 'margin-bottom', 'margin-right', 'padding', 'padding-left', 'padding-top', 'padding-bottom', 'padding-right', 'border', 'font-size', 'background-color', 'color', 'font-weight', 'font-style', 'font-family']
+    
+    soup = BeautifulSoup(html, 'html.parser')
+    t = soup.find('title')
+    # remove any non-valid tags and their content
+    for tag in soup.find_all(True):
+        if tag not in valid_tags:
+            tag.decompose()
+        else:
+            for a in [a for a in list(tag.attrs) if a not in valid_attributes]:
+                del(tag[a])
+    
+    
+    path = app.config['PDF_PATH']
+    t = 'Test4'
+    fname = t.replace(' ', '_') + '.pdf'
+    tohtml = HTML(string=html)
+    tocss = CSS(string=css)
+    doc = tohtml.write_pdf(path + fname, stylesheets=[tocss])
     return send_from_directory(path, filename=fname, as_attachment=True)
